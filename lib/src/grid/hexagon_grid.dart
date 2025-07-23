@@ -101,7 +101,7 @@ class HexagonGrid extends StatelessWidget {
   final Color? color;
   final EdgeInsets? padding;
   final HexagonWidgetBuilder? hexagonBuilder;
-  final Widget Function(Coordinates coordinates)? buildChild;
+  final Widget Function(Coordinates coordinates, Size size)? buildChild;
   final HexagonWidgetBuilder Function(Coordinates coordinates)? buildTile;
 
   int get _maxHexCount => 1 + (depth * 2);
@@ -143,7 +143,7 @@ class HexagonGrid extends StatelessWidget {
       builder: (context, constraints) {
         Size size = _hexSize(constraints);
 
-        HexagonWidget buildHex(Coordinates coordinates) {
+        Widget buildHex(Coordinates coordinates) {
           HexagonWidgetBuilder builder = buildTile?.call(coordinates) ??
               hexagonBuilder ??
               HexagonWidgetBuilder();
@@ -153,7 +153,7 @@ class HexagonGrid extends StatelessWidget {
             inBounds: false,
             width: size.width,
             height: size.height,
-            child: buildChild?.call(coordinates),
+            child: buildChild?.call(coordinates, size),
             replaceChild: buildChild != null,
           );
         }
